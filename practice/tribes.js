@@ -50,7 +50,27 @@ class SigmaBoss extends TribeMember {
         console.log(`Теперь ${this.name} владеет оружием ${weapon.name}`);
     }
 
+    attack(target) {
+        console.log(`${this.name} атакует ${target.name}`);
+        if (this.weapons.length === 0) {
+            console.log(`${this.name} атакует рукой`);
+            target.takeDamage(this.damage);
+        } else {
+            const mainWeapon = this.weapons.at(0);
+            const resultDamage = mainWeapon.damage + this.damage;
+            target.takeDamage(resultDamage);
+            mainWeapon.use();
+            if (mainWeapon.use() ) {
+                target.takeDamage(resultDamage);
+            } else {
+                this.weapons.shift();
+                this.attack(target);
+            }
+        }
+    }
+
 }
+// Denis.attack(Artem)
 
 // самостоятельно добавьте класс Тумба Юмба
 class TumbaUmba extends TribeMember {
@@ -122,8 +142,10 @@ class Weapon {
         this.durability -= 1;
         if (this.durability === 0) {
             console.log(`${this.name} сломалось`);
+            return false;
         } else {
             console.log(`${this.name} использовалось, осталось ${this.durability} использований`);
+            return true;
         }
     }
 }
