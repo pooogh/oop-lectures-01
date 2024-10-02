@@ -1,0 +1,42 @@
+{
+  "alive": [
+    {
+      "name": "Oleg",
+      "age": 38,
+      "health": 96,
+      "damage": 6,
+      "iq": 3,
+      "className": "SigmaBoss",
+      "weapons": []
+    },
+    {
+      "name": "Maxim",
+      "age": 57,
+      "health": 35,
+      "damage": 7,
+      "iq": 17,
+      "className": "TumbaUmba",
+      "tools": [],
+      "dogs": [],
+      "secretPotato": "25 кг картошки"
+    }
+  ],
+  "item": [
+    {
+      "name": "motiga",
+      "className": "Tool",
+      "durability": 9,
+      "damage": 1
+    }
+  ],
+  "dog": [
+    {
+      "name": "Nikolay",
+      "className": "BattleDog",
+      "health": 12,
+      "trainingLvl": 0,
+      "damage": 5
+    }
+  ],
+  "dead": []
+}
