@@ -21,7 +21,19 @@ const setObject = (member) => {
       ? data.item.push(member) : data.alive.push(member);
   updateJSON(data);
 };
-// setTribe();
+
+const createObject = (key, name) => {
+  const classes = ['SigmaBoss', 'TumbaUmba', 'Tool', 'Weapon', 'BattleDog']
+  const templates = {
+    0: new SigmaBoss(name),
+    1: new TumbaUmba(name),
+    2: new Tool(name),
+    3: new Weapon(name),
+    4: new BattleDog(name),
+  }
+  return templates[classes.indexOf(key)];
+}
+
 
 const addItem = () => {
   const data = readData();
@@ -42,14 +54,14 @@ const addItem = () => {
       const indexOfDog = readlineSync.keyInSelect(listOfDogs, 'Кого добавляем: ');
       item = data.dog.at(indexOfDog);
     } else {
-      const listOfTools = data.item.filter(({className}) => className === 'Tool');
-      const listOfToolNames = listOfTools.map(({name}) => name);
+      const listOfTools = data.item.filter(({ className }) => className === 'Tool');
+      const listOfToolNames = listOfTools.map(({ name }) => name);
       const indexOfTool = readlineSync.keyInSelect(listOfToolNames, 'Что добавляем: ');
       item = listOfTools.at(indexOfTool);
     }
   }
-  person = backToClass(person);
-  item = backToClass(item);
+  person = backToClass(person.name);
+  item = backToClass(item.name);
   if (person.className === 'SigmaBoss') {
     person.addWeapon(item);
   } else if (item.className === 'BattleDog') {
@@ -57,7 +69,8 @@ const addItem = () => {
   } else {
     person.addTools(item);
   }
-  updateJSON()
+  // updateJSON();
+  editObject(person);
 };
 // ф-ция, которая терминально создает объект класса и сохраняет его
 const createData = () => {
@@ -71,24 +84,25 @@ const createData = () => {
   const className = classes[index];
   const name = readlineSync.question('Имя/название: ');
 
-  let classObj;
-  switch (className) {
-    case 'TumbaUmba':
-      classObj = new TumbaUmba(name);
-      break;
-    case 'SigmaBoss':
-      classObj = new SigmaBoss(name);
-      break;
-    case 'Tool':
-      classObj = new Tool(name);
-      break;
-    case 'Weapon':
-      classObj = new Weapon(name);
-      break;
-    default:
-      classObj = new BattleDog(name);
-      break;
-  }
+  const classObj = createObject(className, name);
+  // let classObj;
+  // switch (className) {
+  //   case 'TumbaUmba':
+  //     classObj = new TumbaUmba(name);
+  //     break;
+  //   case 'SigmaBoss':
+  //     classObj = new SigmaBoss(name);
+  //     break;
+  //   case 'Tool':
+  //     classObj = new Tool(name);
+  //     break;
+  //   case 'Weapon':
+  //     classObj = new Weapon(name);
+  //     break;
+  //   default:
+  //     classObj = new BattleDog(name);
+  //     break;
+  // }
 
   console.log(classObj);
   setObject(classObj);
@@ -97,11 +111,15 @@ const createData = () => {
 // изменение данных о состоянии объекта
 const editObject = (member) => {
   const data = readData();
-  const keys = Object.keys(data);
-  const filtered = keys.map((key) => data[key].filter(({name}) => name === member.name)).flat().at(0);
-  // const filtered = data.alive.filter(({ name }) => name !== member.name);
+
+  const key = member.className === 'BattleDog'
+    ? 'dog' : ['Tool', 'Weapon'].includes(member.className)
+      ? 'item' : 'alive';
+
+  const filtered = data[key].filter(({ name }) => name !== member.name);
   filtered.push(member);
-  data.alive = filtered;
+  data[key] = filtered;
+
   updateJSON(data);
 };
 
@@ -118,31 +136,32 @@ const setDeadTribe = (member) => {
 const backToClass = (nameToFind) => {
   const data = readData();
   const keys = Object.keys(data);
-  const found = keys.map((key) => data[key].filter(({name}) => name === nameToFind)).flat().at(0);
+  const found = keys.map((key) => data[key].filter(({ name }) => name === nameToFind)).flat().at(0);
   // const objEntries = Object.entries(data);
   // // [['alive', []], ['item', []]]
   // // подумать
   // // что возвращает .find(), если не находит вхождение?
   // const found = objEntries.forEach(([, value]) => value.find((name) => name === nameToFind));
   // const found = data.find(({ name }) => name === nameToFind);
-  let classObj;
-  switch (found.className) {
-    case 'TumbaUmba':
-      classObj = new TumbaUmba(nameToFind);
-      break;
-    case 'SigmaBoss':
-      classObj = new SigmaBoss(nameToFind);
-      break;
-    case 'Tool':
-      classObj = new Tool(nameToFind);
-      break;
-    case 'Weapon':
-      classObj = new Weapon(nameToFind);
-      break;
-    default:
-      classObj = new BattleDog(nameToFind);
-      break;
-  }
+  // let classObj;
+  // switch (found.className) {
+  //   case 'TumbaUmba':
+  //     classObj = new TumbaUmba(nameToFind);
+  //     break;
+  //   case 'SigmaBoss':
+  //     classObj = new SigmaBoss(nameToFind);
+  //     break;
+  //   case 'Tool':
+  //     classObj = new Tool(nameToFind);
+  //     break;
+  //   case 'Weapon':
+  //     classObj = new Weapon(nameToFind);
+  //     break;
+  //   default:
+  //     classObj = new BattleDog(nameToFind);
+  //     break;
+  // }
+  const classObj = createObject(found.className, nameToFind);
   const entries = Object.entries(found);
   // [[k1, v1], [k2, v2]]
   // for ([key, value] of entries) {
@@ -154,9 +173,12 @@ const backToClass = (nameToFind) => {
   // }
   entries.forEach(([key, value]) => {
     classObj[key] = _.isObject(value)
-      ? value.map((item) => backToClass(item))
+      ? value.map((item) => backToClass(item.name))
       : value;
   });
   return classObj;
 };
-export {createData, backToClass, readData}
+
+// если предмет передали какому-то аборигену, то этот предмет удаляется из item
+// продумать механику перестрелки
+export { createData, backToClass, readData, addItem };

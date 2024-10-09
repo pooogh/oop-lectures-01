@@ -7,7 +7,14 @@
       "damage": 6,
       "iq": 3,
       "className": "SigmaBoss",
-      "weapons": []
+      "weapons": [
+        {
+          "name": "motiga",
+          "className": "Tool",
+          "durability": 9,
+          "damage": 1
+        }
+      ]
     },
     {
       "name": "Maxim",
@@ -16,14 +23,33 @@
       "damage": 7,
       "iq": 17,
       "className": "TumbaUmba",
-      "tools": [{
-        "name": "motiga",
-        "className": "Tool",
-        "durability": 9,
-        "damage": 1
-      }],
-      "dogs": [],
+      "tools": [
+        {
+          "name": "motiga",
+          "className": "Tool",
+          "durability": 9,
+          "damage": 1
+        }
+      ],
+      "dogs": [
+        {
+          "name": "Nikolay",
+          "className": "BattleDog",
+          "health": 12,
+          "trainingLvl": 0,
+          "damage": 5
+        }
+      ],
       "secretPotato": "25 кг картошки"
+    },
+    {
+      "name": "Anna",
+      "age": 67,
+      "health": 77,
+      "damage": 5,
+      "iq": 9,
+      "className": "SigmaBoss",
+      "weapons": []
     }
   ],
   "item": [
@@ -32,6 +58,12 @@
       "className": "Tool",
       "durability": 9,
       "damage": 1
+    },
+    {
+      "name": "stvol",
+      "className": "Weapon",
+      "durability": 9,
+      "damage": 9
     }
   ],
   "dog": [

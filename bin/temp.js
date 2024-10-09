@@ -1,3 +1,4 @@
-import createData from '../practice/utility.js';
+import {createData, addItem} from '../practice/utility.js';
 
 createData();
+// addItem();

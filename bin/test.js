@@ -1,4 +1,4 @@
-import { backToClass, readData } from "../practice/utility.js";
+import { backToClass, readData } from '../practice/utility.js';
 
 const data = readData();
 // const search = Object.entries(data).forEach(([, value]) => value.find((name) => name === 'motiga'));
