@@ -16,7 +16,12 @@
       "damage": 7,
       "iq": 17,
       "className": "TumbaUmba",
-      "tools": [],
+      "tools": [{
+        "name": "motiga",
+        "className": "Tool",
+        "durability": 9,
+        "damage": 1
+      }],
       "dogs": [],
       "secretPotato": "25 кг картошки"
     }

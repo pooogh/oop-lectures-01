@@ -29,7 +29,7 @@ const addItem = () => {
   const listOfNames = data.alive.map(({ name }) => name);
   const indexOfName = readlineSync.keyInSelect(listOfNames, 'Кому добавляем: ');
 
-  const person = data.alive.at(indexOfName);
+  let person = data.alive.at(indexOfName);
   let item;
   if (person.className === 'SigmaBoss') {
     const listOfItems = data.item.map(({ name }) => name);
@@ -48,8 +48,16 @@ const addItem = () => {
       item = listOfTools.at(indexOfTool);
     }
   }
-
-
+  person = backToClass(person);
+  item = backToClass(item);
+  if (person.className === 'SigmaBoss') {
+    person.addWeapon(item);
+  } else if (item.className === 'BattleDog') {
+    person.addDog(item);
+  } else {
+    person.addTools(item);
+  }
+  updateJSON()
 };
 // ф-ция, которая терминально создает объект класса и сохраняет его
 const createData = () => {
@@ -87,9 +95,11 @@ const createData = () => {
   return true;
 };
 // изменение данных о состоянии объекта
-const editTribe = (member) => {
+const editObject = (member) => {
   const data = readData();
-  const filtered = data.alive.filter(({ name }) => name !== member.name);
+  const keys = Object.keys(data);
+  const filtered = keys.map((key) => data[key].filter(({name}) => name === member.name)).flat().at(0);
+  // const filtered = data.alive.filter(({ name }) => name !== member.name);
   filtered.push(member);
   data.alive = filtered;
   updateJSON(data);
@@ -107,11 +117,13 @@ const setDeadTribe = (member) => {
 // возвращаем объект json в объект класса
 const backToClass = (nameToFind) => {
   const data = readData();
-  const objEntries = Object.entries(data);
-  // [['alive', []], ['item', []]]
-  // подумать
-  // что возвращает .find(), если не находит вхождение?
-  const found = objEntries.forEach(([, value]) => value.find((name) => name === nameToFind));
+  const keys = Object.keys(data);
+  const found = keys.map((key) => data[key].filter(({name}) => name === nameToFind)).flat().at(0);
+  // const objEntries = Object.entries(data);
+  // // [['alive', []], ['item', []]]
+  // // подумать
+  // // что возвращает .find(), если не находит вхождение?
+  // const found = objEntries.forEach(([, value]) => value.find((name) => name === nameToFind));
   // const found = data.find(({ name }) => name === nameToFind);
   let classObj;
   switch (found.className) {
@@ -145,5 +157,6 @@ const backToClass = (nameToFind) => {
       ? value.map((item) => backToClass(item))
       : value;
   });
+  return classObj;
 };
-export default createData;
+export {createData, backToClass, readData}
