@@ -1,25 +1,25 @@
 const student = {
-    name: 'Denix',
-    getName(group='01-23', tutor='Tanya') {
-        return `${this.name}, ${group}, ${tutor}`;
-    }
-    // getName: function getName() {}
+  name: 'Denix',
+  getName(group = '01-23', tutor = 'Tanya') {
+    return `${this.name}, ${group}, ${tutor}`;
+  },
+  // getName: function getName() {}
 };
 
 const studentsName = student.getName();
 // console.log(studentsName);
 
 const student2 = {
-    name: 'Ivan',
+  name: 'Ivan',
 };
 
 const student3 = {
-    name: 'Timofey aka sladkaya bulo4ka',
+  name: 'Timofey aka sladkaya bulo4ka',
 };
 
 const student4 = {
-    name: 'Hadi'
-}
+  name: 'Hadi',
+};
 // bind, call, apply - методы функций, которые вызывают ее с контекстом из аргумента
 // bind - возвращает новую ф-цию, которая представляет собой вызов фукнции с контекстом
 const studentsName2 = student.getName.bind(student2);
@@ -41,3 +41,19 @@ const newSum = sum.bind(null, 8);
 // console.log(newSum(10))
 // sum.bind('null', 8) => sum = (8, b) => 8 + b;
 
+// контекст и стрелочные функции
+const fn = () => this;
+function fn2() {
+  return this;
+}
+
+console.log(fn(), fn2());
+const obj = {
+  fn,
+  fn2,
+  fn3() {
+    const x = () => this;
+    return x();
+  },
+};
+console.log(obj.fn(), obj.fn2(), obj.fn3());
