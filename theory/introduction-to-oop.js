@@ -57,3 +57,46 @@ const obj = {
   },
 };
 console.log(obj.fn(), obj.fn2(), obj.fn3());
+
+
+// конструкторы
+function setCount(count) {
+  this.count = count;
+  return true;
+};
+
+function Group(name, department) {
+  this.name = name;
+  this.department = department;
+  this.getInfo = function getInfo() {
+    return `${this.name}, ${this.department}`;
+  };
+  this.setCount = setCount;
+};
+
+const gr01 = new Group('01-23.ISAP.OF.11', 'IT');
+gr01.setCount(30);
+console.log(gr01);
+const gr03 = new Group('03-23.ISAP.OF.11', 'IT');
+console.log(gr03)
+
+// прототипы
+const array = [];
+Array.prototype.includes = function includes() {
+  console.log('new');
+};
+array.includes();
+console.log(typeof(array));
+
+function Student(name='', group='') {
+  this.name = name;
+  this.group = group;
+};
+Student.prototype.setName = function setName(name) {
+  this.name = name;
+  return true;
+}
+
+const ivan = new Student();
+ivan.setName('Ivan');
+console.log(ivan);
