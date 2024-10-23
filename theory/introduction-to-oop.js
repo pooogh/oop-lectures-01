@@ -100,3 +100,33 @@ Student.prototype.setName = function setName(name) {
 const ivan = new Student();
 ivan.setName('Ivan');
 console.log(ivan);
+
+
+// раскарковка 
+const name = 'Denis';
+name.split('');
+console.log(typeof(name));
+
+const age = new Number(23);
+console.log(age + ' is age of Denis');
+const name2 = new String('Denis');
+const isDead = new Boolean();
+console.log(name2 + ' ...');
+
+// .toString()
+const denis = {
+  name: 'Denis',
+  age: 23,
+  toString() {
+    return `${this.name}, ${this.age}`;
+  }
+};
+
+console.log(name2.toString());
+console.log(denis.toString());
+console.log(JSON.stringify(denis, null, 2));
+console.log(`${name2}`);
+// denis.prototype.toString = function toString() {
+//   return `${this.name}, ${this.age}`;
+// };
+console.log(`${denis}`);
