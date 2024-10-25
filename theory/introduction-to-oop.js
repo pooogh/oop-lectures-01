@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 const student = {
   name: 'Denix',
   getName(group = '01-23', tutor = 'Tanya') {
@@ -130,3 +132,75 @@ console.log(`${name2}`);
 //   return `${this.name}, ${this.age}`;
 // };
 console.log(`${denis}`);
+
+// статические св-ва и методы
+class Teacher {
+  constructor(name, department) {
+    this.name = name;
+    this.department = department;
+  };
+
+  getInfo() {
+    return `${this.name}, ${this.department}, ${this.constructor.wardrobe}`;
+  };
+
+  static wardrobe = false;
+  static setWardrobe() {
+    this.wardrobe = this.wardrobe === false ? true : false;
+  };
+};
+
+const t1 = new Teacher('Nikolay', 'IT');
+console.log(t1.getInfo());
+const t2 = new Teacher('Artem Evgenievich', 'IT');
+console.log(t2.getInfo());
+t1.department = 'design';
+// Teacher.wardrobe = true;
+console.log(Teacher.wardrobe);
+Teacher.setWardrobe();
+console.log(Teacher.wardrobe)
+console.log(t2.getInfo());
+console.log(t1.getInfo());
+
+// исключения
+try {
+  const x = 6;
+  x = 8;
+  console.log(x);
+} catch {
+  console.log('error');
+}
+
+const readData = () => {
+  try {
+    const data = fs.readFileSync('folder/data.js');
+    return data;
+    // console.log('try')
+  } catch {
+    throw new Error('filePath error');
+    // const data = fs.readFileSync('folder/data.js');
+    // return data;
+    // console.log('catch')
+  } 
+  // finally {
+  //   console.log('finally');
+  // }
+};
+
+// readData();
+
+const editData = () => {
+  try {
+    const data = readData();
+    console.log('kek')
+  } catch(e) {
+    if (e.message === 'filePath error') {
+      // действия
+      console.log('ошибка пути');
+    } else {
+      console.log('ошибка не пути');
+    }
+  }
+}
+
+editData()
